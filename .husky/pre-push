@@ -1,0 +1,25 @@
+
+
+echo "🔍 Running ESLint check..."
+npx next lint
+if [ $? -ne 0 ]; then
+  echo "❌ ESLint errors detected. Push aborted."
+  exit 1
+fi
+
+echo "🔍 Running TypeScript type check..."
+npx tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript errors detected. Push aborted."
+  exit 1
+fi
+
+echo "🏗️ Running Next.js build check..."
+npm run build
+if [ $? -ne 0 ]; then
+  echo "❌ Build failed. Push aborted."
+  exit 1
+fi
+
+echo "✅ All checks passed. Proceeding with push."
+
