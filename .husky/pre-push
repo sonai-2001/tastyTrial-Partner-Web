@@ -1,4 +1,11 @@
+#!/bin/sh
 
+echo "🔧 Auto-fixing ESLint issues..."
+npx next lint --fix
+if [ $? -ne 0 ]; then
+  echo "❌ ESLint fix failed. Push aborted."
+  exit 1
+fi
 
 echo "🔍 Running ESLint check..."
 npx next lint
@@ -22,4 +29,3 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "✅ All checks passed. Proceeding with push."
-

@@ -1,5 +1,4 @@
 import axiosInstance from '@/api/axiosInstance';
-// eslint-disable-next-line import/no-unresolved
 import { endpoints } from '@/api/endpoints';
 import { TCommonSchema } from '@/types/common/common.schema';
 
