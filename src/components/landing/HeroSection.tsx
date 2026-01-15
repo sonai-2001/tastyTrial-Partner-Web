@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button';
 
 export default function HeroSection() {
   return (
-    <section className="bg-background">
+<section className="bg-[#fff7f1] pb-40 relative">
       <div className="container">
-        <div className="grid gap-12 py-28 lg:grid-cols-2 items-center">
+        <div className="grid gap-12 py-18 lg:grid-cols-2 items-center">
           {/* LEFT: Text */}
           <div>
             <h1 className="text-4xl lg:text-5xl font-bold tracking-tight">
@@ -20,9 +20,9 @@ export default function HeroSection() {
             <div className="mt-10 flex flex-wrap gap-4">
               <Button size="lg">Get started</Button>
 
-              <Button size="lg" variant="outline">
+              {/* <Button size="lg" variant="outline">
                 Learn more
-              </Button>
+              </Button> */}
             </div>
           </div>
 
