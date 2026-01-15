@@ -1,23 +1,21 @@
 // components/landing/WhyChooseUsSection.tsx
-import { Users, Truck, Mail } from "lucide-react";
+import { Users, Truck, Mail } from 'lucide-react';
 
 const reasons = [
   {
     icon: Users,
-    title: "Attract new customers",
-    description: "Reach thousands of customers ordering food online every day.",
+    title: 'Attract new customers',
+    description: 'Reach thousands of customers ordering food online every day.',
   },
   {
     icon: Truck,
-    title: "Doorstep delivery convenience",
-    description:
-      "Easily get your orders delivered through our trusted delivery partners.",
+    title: 'Doorstep delivery convenience',
+    description: 'Easily get your orders delivered through our trusted delivery partners.',
   },
   {
     icon: Mail,
-    title: "Onboarding support",
-    description:
-      "Our support team is always available to help you get started smoothly.",
+    title: 'Onboarding support',
+    description: 'Our support team is always available to help you get started smoothly.',
   },
 ];
 
@@ -26,10 +24,7 @@ export default function WhyChooseUsSection() {
     <section className="bg-background">
       <div className="container">
         <div className="py-24">
-
-          <h2 className="text-3xl font-semibold text-center">
-            Why should you partner with us?
-          </h2>
+          <h2 className="text-3xl font-semibold text-center">Why should you partner with us?</h2>
 
           <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((item) => (
@@ -40,13 +35,10 @@ export default function WhyChooseUsSection() {
 
                 <h3 className="text-lg font-semibold">{item.title}</h3>
 
-                <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-                  {item.description}
-                </p>
+                <p className="text-sm text-muted-foreground max-w-xs mx-auto">{item.description}</p>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </section>

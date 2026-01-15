@@ -7,8 +7,8 @@ export default function LandingPage() {
   return (
     <>
       <HeroSection />
-      <OnboardingSection/>
-      <WhyChooseUsSection/>
+      <OnboardingSection />
+      <WhyChooseUsSection />
     </>
   );
 }

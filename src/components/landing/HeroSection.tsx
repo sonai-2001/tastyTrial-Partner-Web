@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 
 export default function HeroSection() {
   return (
-<section className="bg-[#fff7f1] pb-40 relative">
+    <section className="bg-[#fff7f1] pb-40 relative">
       <div className="container">
         <div className="grid gap-12 py-18 lg:grid-cols-2 items-center">
           {/* LEFT: Text */}
