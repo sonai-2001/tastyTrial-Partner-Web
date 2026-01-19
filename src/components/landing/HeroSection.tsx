@@ -14,7 +14,7 @@ export default function HeroSection() {
 
             <p className="mt-6 text-lg text-muted-foreground max-w-xl">
               Reach more customers, manage orders seamlessly, and deliver faster with our all-in-one
-              restaurant platform.
+              restaurant platformm.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
