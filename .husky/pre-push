@@ -1,7 +1,10 @@
 #!/bin/sh
+set -e  # stop on any error
+
+# Go to project root to avoid path issues
+cd "$(git rev-parse --show-toplevel)"
 
 echo "🔧 Running ESLint..."
-# Use npm scripts instead of npx directly
 npm run lint
 
 echo "🔍 Running TypeScript check..."
