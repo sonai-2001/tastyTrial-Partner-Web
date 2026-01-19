@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "🔧 Auto-fixing ESLint issues..."
-npx next lint --fix
+npm run lint
 if [ $? -ne 0 ]; then
   echo "❌ ESLint fix failed. Push aborted."
   exit 1
