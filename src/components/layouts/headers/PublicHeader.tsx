@@ -2,10 +2,9 @@
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-
 export default function PublicHeader() {
   return (
-    <header className="w-full border-b bg-background">
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="text-lg font-bold">

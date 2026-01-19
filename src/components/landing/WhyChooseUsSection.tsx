@@ -1,43 +1,84 @@
-// components/landing/WhyChooseUsSection.tsx
-import { Users, Truck, Mail } from 'lucide-react';
+'use client';
 
-const reasons = [
+import Image from 'next/image';
+import { useState } from 'react';
+
+const tabs = [
   {
-    icon: Users,
-    title: 'Attract new customers',
-    description: 'Reach thousands of customers ordering food online every day.',
+    id: 'customers',
+    label: 'Reach exclusive customers',
+    title: 'Reach exclusive customers',
+    description:
+      'Unlock a new revenue stream and grow with our highly engaged customer base, many of whom order exclusively through our platform.',
+    image: '/assets/why-customers.avif',
   },
   {
-    icon: Truck,
-    title: 'Doorstep delivery convenience',
-    description: 'Easily get your orders delivered through our trusted delivery partners.',
+    id: 'operations',
+    label: 'Manage your delivery operations',
+    title: 'Manage your delivery operations',
+    description:
+      'Easily manage orders, menus, payouts, and performance metrics from one powerful dashboard.',
+    image: '/assets/why-operations.avif',
   },
   {
-    icon: Mail,
-    title: 'Onboarding support',
-    description: 'Our support team is always available to help you get started smoothly.',
+    id: 'growth',
+    label: 'Accelerate your business growth',
+    title: 'Accelerate your business growth',
+    description:
+      'Access tools, insights, and marketing support designed to help your restaurant grow faster.',
+    image: '/assets/why-growth.avif',
   },
 ];
 
-export default function WhyChooseUsSection() {
+export default function WhyChooseUsTabs() {
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  const current = tabs.find((t) => t.id === activeTab)!;
+
   return (
     <section className="bg-background">
-      <div className="container">
-        <div className="py-24">
-          <h2 className="text-3xl font-semibold text-center">Why should you partner with us?</h2>
+      <div className="container py-20">
+        {/* Heading */}
+        <h2 className="text-center text-3xl lg:text-4xl font-bold">Why choose TastyTrial?</h2>
 
-          <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {reasons.map((item) => (
-              <div key={item.title} className="text-center space-y-4">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                  <item.icon className="h-6 w-6 text-primary" />
-                </div>
+        {/* Tabs */}
+        <div className="mt-10 border-b flex justify-center gap-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`pb-4 text-sm lg:text-base font-medium transition cursor-pointer
+                ${
+                  activeTab === tab.id
+                    ? 'border-b-2 border-primary text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-                <h3 className="text-lg font-semibold">{item.title}</h3>
+        {/* Content */}
+        <div className="mt-16 grid gap-12 lg:grid-cols-2 items-center">
+          {/* Left */}
+          <div>
+            <h3 className="text-2xl lg:text-3xl font-semibold">{current.title}</h3>
 
-                <p className="text-sm text-muted-foreground max-w-xs mx-auto">{item.description}</p>
-              </div>
-            ))}
+            <p className="mt-4 text-muted-foreground max-w-lg">{current.description}</p>
+          </div>
+
+          {/* Right */}
+          <div className="relative">
+            <div className="rounded-xl bg-muted p-4 shadow-sm">
+              <Image
+                src={current.image}
+                alt={current.title}
+                width={600}
+                height={400}
+                className="rounded-lg"
+              />
+            </div>
           </div>
         </div>
       </div>
