@@ -5,7 +5,7 @@ set -e
 cd "$(git rev-parse --show-toplevel)"
 
 echo "🔧 Running ESLint..."
-npm run lint
+npx eslint . --ext .js,.ts,.tsx
 
 echo "🔍 Running TypeScript check..."
 npx tsc --noEmit
