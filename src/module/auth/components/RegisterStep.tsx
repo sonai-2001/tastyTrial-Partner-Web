@@ -1,9 +1,4 @@
-const steps = [
-  'Restaurant details',
-  'Owner details',
-  'Documents',
-  'Finish',
-];
+const steps = ['Restaurant details', 'Owner details', 'Documents', 'Finish'];
 
 export default function RegisterSteps({ currentStep }: { currentStep: number }) {
   return (
@@ -20,18 +15,14 @@ export default function RegisterSteps({ currentStep }: { currentStep: number }) 
                   isCompleted
                     ? 'bg-primary text-primary-foreground'
                     : isActive
-                    ? 'border-2 border-primary text-primary'
-                    : 'border text-muted-foreground'
+                      ? 'border-2 border-primary text-primary'
+                      : 'border text-muted-foreground'
                 }`}
             >
               {index + 1}
             </div>
 
-            <span
-              className={`text-sm ${
-                isActive ? 'font-medium' : 'text-muted-foreground'
-              }`}
-            >
+            <span className={`text-sm ${isActive ? 'font-medium' : 'text-muted-foreground'}`}>
               {step}
             </span>
           </div>

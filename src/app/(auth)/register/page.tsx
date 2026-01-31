@@ -1,10 +1,9 @@
-import RegisterPage from '@/module/auth/pages/RegisterPage'
-import React from 'react'
+import React from 'react';
+
+import RegisterPage from '@/module/auth/pages/RegisterPage';
 
 const page = () => {
-  return (
-    <RegisterPage/>
-  )
-}
+  return <RegisterPage />;
+};
 
-export default page
+export default page;

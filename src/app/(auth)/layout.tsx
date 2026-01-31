@@ -1,16 +1,10 @@
 // app/(auth)/layout.tsx
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative min-h-screen overflow-hidden bg-muted">
-
       {/* ================= DASHBOARD SHIMMER ================= */}
       <div className="absolute inset-0 grid grid-cols-12 gap-6 p-8 opacity-50">
-
         {/* ===== Sidebar ===== */}
         <aside className="col-span-3 flex flex-col justify-between rounded-2xl bg-background/40 p-5">
           <div className="space-y-8">
@@ -41,7 +35,6 @@ export default function AuthLayout({
 
         {/* ===== Main Content ===== */}
         <main className="col-span-9 space-y-6">
-
           {/* Top bar */}
           <div className="flex items-center justify-between">
             <div className="h-10 w-72 rounded-lg bg-foreground/40 animate-pulse" />
@@ -54,10 +47,7 @@ export default function AuthLayout({
           {/* KPI cards */}
           <div className="grid grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-28 rounded-xl bg-foreground/40 animate-pulse"
-              />
+              <div key={i} className="h-28 rounded-xl bg-foreground/40 animate-pulse" />
             ))}
           </div>
 
@@ -68,10 +58,7 @@ export default function AuthLayout({
           <div className="space-y-3 rounded-xl bg-background/40 p-4">
             <div className="h-4 w-40 rounded bg-foreground/40 animate-pulse" />
             {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-10 rounded-lg bg-foreground/30 animate-pulse"
-              />
+              <div key={i} className="h-10 rounded-lg bg-foreground/30 animate-pulse" />
             ))}
           </div>
         </main>

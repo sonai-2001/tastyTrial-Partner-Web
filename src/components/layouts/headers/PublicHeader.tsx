@@ -29,7 +29,9 @@ export default function PublicHeader() {
           <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground">
             Login
           </Link>
-          <Button  size="sm"><Link href={'/register'}>Get Started</Link></Button>
+          <Button size="sm">
+            <Link href={'/register'}>Get Started</Link>
+          </Button>
         </div>
       </div>
     </header>
