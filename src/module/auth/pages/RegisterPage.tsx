@@ -11,7 +11,7 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1);
 
   const onNextStep = () => setStep((s) => Math.min(s + 1, 6));
-  const onBackStep = () => setStep((s) => Math.max(s - 1, 1));
+  // const onBackStep = () => setStep((s) => Math.max(s - 1, 1));
 
   const renderStepForm = () => {
     switch (step) {
