@@ -1,24 +1,35 @@
-'use client';
-
-import LandingWrapper from '@/module/Landing/components/LandingWrapper';
-
-import LoginForm from '../components/LoginForm';
-import LoginWrapper from '../components/LoginWrapper';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function LoginPage() {
   return (
-    <LandingWrapper>
-      <LoginWrapper>
-        <div className="min-h-screen w-full bg-background text-foreground flex items-center justify-center px-4">
-          <div className="w-full max-w-md bg-card text-card-foreground rounded-2xl shadow-lg p-8 space-y-6">
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
-              <p className="text-sm text-muted-foreground">Sign in to continue to your account</p>
-            </div>
-            <LoginForm />
-          </div>
+    <Card className="w-full max-w-md shadow-xl">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center">
+          Welcome back
+        </CardTitle>
+        <p className="text-sm text-muted-foreground text-center">
+          Log in to manage your restaurant
+        </p>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
+          <Input placeholder="Email address" />
+          <Input type="password" placeholder="Password" />
         </div>
-      </LoginWrapper>
-    </LandingWrapper>
+
+        <Button className="w-full">Log in</Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don’t have an account?{' '}
+          <Link href="/register" className="text-primary hover:underline">
+            Register
+          </Link>
+        </p>
+      </CardContent>
+    </Card>
   );
 }
