@@ -27,7 +27,9 @@ export default function LoginPage() {
           <Input type="password" placeholder="Confirm password" />
         </div>
 
-        <Button onClick={() => router.push('/onBoarding')} className="w-full">Register</Button>
+        <Button onClick={() => router.push('/onBoarding')} className="w-full">
+          Register
+        </Button>
 
         <p className="text-center text-sm text-muted-foreground">
           You have an account?{' '}

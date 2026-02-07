@@ -13,65 +13,34 @@ const Menu = ({ onNext, onBack }: StepAccountProps) => {
         <CardTitle>Uplode details</CardTitle>
         <p className="text-sm text-muted-foreground">Uplode the menu of your restaurant.</p>
       </CardHeader>
-      
 
       {/* Restaurant Menu Form */}
-    <CardContent className="space-y-6">
-    
+      <CardContent className="space-y-6">
         {/* Image Upload */}
         <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
-            Upload Delivery Menu image
-            </label>
-            <Input
-            type="file"
-            accept="image/*"
-            className="cursor-pointer"
-            />
+          <label className="text-sm font-medium text-foreground">Upload Delivery Menu image</label>
+          <Input type="file" accept="image/*" className="cursor-pointer" />
 
-            <p className="text-xs text-muted-foreground">
-            JPG, PNG up to 5MB
-            </p>
+          <p className="text-xs text-muted-foreground">JPG, PNG up to 5MB</p>
         </div>
         <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
-            Upload food image
-            </label>
-            <Input
-            type="file"
-            accept="image/*"
-            className="cursor-pointer"
-            />
+          <label className="text-sm font-medium text-foreground">Upload food image</label>
+          <Input type="file" accept="image/*" className="cursor-pointer" />
 
-            <p className="text-xs text-muted-foreground">
-            JPG, PNG up to 5MB
-            </p>
+          <p className="text-xs text-muted-foreground">JPG, PNG up to 5MB</p>
         </div>
-
-    </CardContent>
-
-
-
+      </CardContent>
 
       {/* Footer Next and Back Buttons */}
       <CardFooter className="flex flex-col-reverse gap-3 border-t pt-4 sm:flex-row sm:justify-between">
-      <Button
-        variant="secondary"
-        className="w-full sm:w-auto"
-        onClick={onBack}
-      >
-        Back
-      </Button>
+        <Button variant="secondary" className="w-full sm:w-auto" onClick={onBack}>
+          Back
+        </Button>
 
-      <Button
-        className="w-full sm:w-auto"
-        onClick={onNext}
-      >
-        Next
-      </Button>
-    </CardFooter>
-
-
+        <Button className="w-full sm:w-auto" onClick={onNext}>
+          Next
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

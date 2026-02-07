@@ -1,9 +1,10 @@
-'use client'
-import { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+'use client';
+import { useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 const CUISINES = [
   'North Indian',
@@ -15,45 +16,38 @@ const CUISINES = [
   'Italian',
   'Mexican',
   'Continental',
-]
+];
 
 export default function CuisineSelector({
   max = 3,
   onChange,
 }: {
-  max?: number
-  onChange?: (values: string[]) => void
+  max?: number;
+  onChange?: (values: string[]) => void;
 }) {
-  const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState<string[]>([])
-//   const [cuisines, setCuisines] = useState(CUISINES)
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<string[]>([]);
+  //   const [cuisines, setCuisines] = useState(CUISINES)
 
-
-  const filtered = CUISINES.filter((c) =>
-    c.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = CUISINES.filter((c) => c.toLowerCase().includes(search.toLowerCase()));
 
   function toggleCuisine(cuisine: string) {
-    let updated: string[]
+    let updated: string[];
 
     if (selected.includes(cuisine)) {
-      updated = selected.filter((c) => c !== cuisine)
+      updated = selected.filter((c) => c !== cuisine);
     } else {
-     
-      updated = [...selected, cuisine]
+      updated = [...selected, cuisine];
     }
 
-
-    setSelected(updated)
-    onChange?.(updated)
+    setSelected(updated);
+    onChange?.(updated);
   }
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-base">
-          Select upto {max} cuisines
-        </CardTitle>
+        <CardTitle className="text-base">Select upto {max} cuisines</CardTitle>
         <p className="text-sm text-muted-foreground">
           Your restaurant will appear in searches for these cuisines
         </p>
@@ -86,7 +80,7 @@ export default function CuisineSelector({
         {/* Options */}
         <div className="grid grid-cols-2 gap-3">
           {filtered.map((cuisine) => {
-            const active = selected.includes(cuisine)
+            const active = selected.includes(cuisine);
 
             return (
               <Button
@@ -99,7 +93,7 @@ export default function CuisineSelector({
               >
                 {cuisine}
               </Button>
-            )
+            );
           })}
         </div>
 
@@ -109,5 +103,5 @@ export default function CuisineSelector({
         </p>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -12,7 +12,7 @@ const OwnerDetails = ({ onNext, onBack }: StepAccountProps) => {
         <CardTitle>Owner details</CardTitle>
         <p className="text-sm text-muted-foreground">Fill the details of the owner.</p>
       </CardHeader>
-      
+
       {/* Form */}
       <CardContent className="space-y-6">
         <Input placeholder="Owner name" />
@@ -24,23 +24,14 @@ const OwnerDetails = ({ onNext, onBack }: StepAccountProps) => {
 
       {/* Footer Next and Back Buttons */}
       <CardFooter className="flex flex-col-reverse gap-3 border-t pt-4 sm:flex-row sm:justify-between">
-      <Button
-        variant="secondary"
-        className="w-full sm:w-auto"
-        onClick={onBack}
-      >
-        Back
-      </Button>
+        <Button variant="secondary" className="w-full sm:w-auto" onClick={onBack}>
+          Back
+        </Button>
 
-      <Button
-        className="w-full sm:w-auto"
-        onClick={onNext}
-      >
-        Next
-      </Button>
-    </CardFooter>
-
-
+        <Button className="w-full sm:w-auto" onClick={onNext}>
+          Next
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

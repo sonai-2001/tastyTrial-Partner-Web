@@ -1,4 +1,4 @@
-const steps = ['Services','Restaurant details','Service availability','Payment details'];
+const steps = ['Services', 'Restaurant details', 'Service availability', 'Payment details'];
 
 export default function OnboardingSteps({ currentStep }: { currentStep: number }) {
   return (

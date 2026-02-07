@@ -14,7 +14,7 @@ const StepAccount = ({ onNext, onBack }: StepAccountProps) => {
         <CardTitle>Restaurant details</CardTitle>
         <p className="text-sm text-muted-foreground">Fill the details of your restaurant.</p>
       </CardHeader>
-      
+
       {/* Restaurant Details Form */}
       <CardContent className="space-y-6">
         <Input placeholder="Restaurant Name" />
@@ -25,40 +25,23 @@ const StepAccount = ({ onNext, onBack }: StepAccountProps) => {
         <Input placeholder="City" />
         <Input placeholder="Pincode" />
         {/* <Input placeholder="Cuisine Type (e.g. Indian, Chinese)" /> */}
-        <CuisineSelector
-          max={3}
-          onChange={(values) => console.log('Selected cuisines:', values)}
-        />
+        <CuisineSelector max={3} onChange={(values) => console.log('Selected cuisines:', values)} />
         <Input placeholder="GST Number (Optional)" />
         <Input placeholder="FSSAI License Number" />
         {/* Image Upload */}
-          <FileUploader
-          max={2}
-          onChange={(files) => console.log('Uploaded files:', files)}
-        />
-
+        <FileUploader max={2} onChange={(files) => console.log('Uploaded files:', files)} />
       </CardContent>
-
 
       {/* Footer Next and Back Buttons */}
       <CardFooter className="flex flex-col-reverse gap-3 border-t pt-4 sm:flex-row sm:justify-between">
-      <Button
-        variant="secondary"
-        className="w-full sm:w-auto"
-        onClick={onBack}
-      >
-        Back
-      </Button>
+        <Button variant="secondary" className="w-full sm:w-auto" onClick={onBack}>
+          Back
+        </Button>
 
-      <Button
-        className="w-full sm:w-auto"
-        onClick={onNext}
-      >
-        Next
-      </Button>
-    </CardFooter>
-
-
+        <Button className="w-full sm:w-auto" onClick={onNext}>
+          Next
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

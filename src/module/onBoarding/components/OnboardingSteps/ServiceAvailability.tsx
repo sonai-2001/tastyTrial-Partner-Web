@@ -519,38 +519,20 @@
 //   );
 // }
 
-
-
-
-
-
 'use client';
 import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 
 type StepAccountProps = {
   onNext: () => void;
   onBack: () => void;
 };
 
-const daysOfWeek = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 type DayAvailability = {
   enabled: boolean;
@@ -559,20 +541,17 @@ type DayAvailability = {
 };
 
 const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
-  const [availability, setAvailability] = useState<
-    Record<string, DayAvailability>
-  >(
-    daysOfWeek.reduce((acc, day) => {
-      acc[day] = { enabled: false, open: '', close: '' };
-      return acc;
-    }, {} as Record<string, DayAvailability>)
+  const [availability, setAvailability] = useState<Record<string, DayAvailability>>(
+    daysOfWeek.reduce(
+      (acc, day) => {
+        acc[day] = { enabled: false, open: '', close: '' };
+        return acc;
+      },
+      {} as Record<string, DayAvailability>,
+    ),
   );
 
-  const handleChange = (
-    day: string,
-    field: keyof DayAvailability,
-    value: boolean | string
-  ) => {
+  const handleChange = (day: string, field: keyof DayAvailability, value: boolean | string) => {
     setAvailability((prev) => ({
       ...prev,
       [day]: {
@@ -593,7 +572,6 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
 
       {/* Form */}
       <CardContent className="space-y-4">
-
         {daysOfWeek.map((day) => (
           <div
             key={day}
@@ -603,9 +581,7 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
             <div className="flex items-center gap-2 w-32">
               <Checkbox
                 checked={availability[day].enabled}
-                onCheckedChange={(checked) =>
-                  handleChange(day, 'enabled', Boolean(checked))
-                }
+                onCheckedChange={(checked) => handleChange(day, 'enabled', Boolean(checked))}
               />
               <span className="font-medium">{day}</span>
             </div>
@@ -615,9 +591,7 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
               type="time"
               disabled={!availability[day].enabled}
               value={availability[day].open}
-              onChange={(e) =>
-                handleChange(day, 'open', e.target.value)
-              }
+              onChange={(e) => handleChange(day, 'open', e.target.value)}
               placeholder="Open"
             />
 
@@ -626,30 +600,20 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
               type="time"
               disabled={!availability[day].enabled}
               value={availability[day].close}
-              onChange={(e) =>
-                handleChange(day, 'close', e.target.value)
-              }
+              onChange={(e) => handleChange(day, 'close', e.target.value)}
               placeholder="Close"
             />
           </div>
         ))}
-
       </CardContent>
 
       {/* Footer */}
       <CardFooter className="flex flex-col-reverse gap-3 border-t pt-4 sm:flex-row sm:justify-between">
-        <Button
-          variant="secondary"
-          className="w-full sm:w-auto"
-          onClick={onBack}
-        >
+        <Button variant="secondary" className="w-full sm:w-auto" onClick={onBack}>
           Back
         </Button>
 
-        <Button
-          className="w-full sm:w-auto"
-          onClick={onNext}
-        >
+        <Button className="w-full sm:w-auto" onClick={onNext}>
           Next
         </Button>
       </CardFooter>
@@ -658,4 +622,3 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
 };
 
 export default ServiceAvailability;
-

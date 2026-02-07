@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
 import OnboardingStep from '../components/OnboardingStep';
-import ServiceSelection from '../components/OnboardingSteps/ServiceSelector';
+import PaymentDetails from '../components/OnboardingSteps/PaymentDetails';
 import RestaurantDetails from '../components/OnboardingSteps/RestaurantDetails';
 import ServiceAvailability from '../components/OnboardingSteps/ServiceAvailability';
-import PaymentDetails from '../components/OnboardingSteps/PaymentDetails';
+import ServiceSelection from '../components/OnboardingSteps/ServiceSelector';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
@@ -33,7 +33,7 @@ export default function OnboardingPage() {
       <CardContent className="grid gap-5 md:grid-cols-3 p-8">
         {/* Steps */}
         <div className="hidden md:block">
-          <OnboardingStep currentStep={step-1} />
+          <OnboardingStep currentStep={step - 1} />
         </div>
 
         {/* Form */}

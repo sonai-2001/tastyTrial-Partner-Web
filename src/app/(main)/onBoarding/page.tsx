@@ -1,10 +1,9 @@
-import OnboardingPage from '@/module/onBoarding/pages/OnboardingPage'
-import React from 'react'
+import React from 'react';
+
+import OnboardingPage from '@/module/onBoarding/pages/OnboardingPage';
 
 const page = () => {
-  return (
-    <OnboardingPage />
-  )
-}
+  return <OnboardingPage />;
+};
 
-export default page
+export default page;
