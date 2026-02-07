@@ -1,44 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
-import RegisterSteps from '../components/RegisterStep';
-import StepAccount from '../components/registerSteps/StepAccount';
-
-export default function RegisterPage() {
-  const [step, setStep] = useState(1);
-
-  const onNextStep = () => setStep((s) => Math.min(s + 1, 6));
-  // const onBackStep = () => setStep((s) => Math.max(s - 1, 1));
-
-  const renderStepForm = () => {
-    switch (step) {
-      case 1:
-        return <StepAccount onNext={onNextStep} />;
-      case 2:
-        return <div>Step 2</div>;
-      case 3:
-        return <div>Step 3</div>;
-      case 4:
-        return <div>Step 4</div>;
-      case 5:
-        return <div>Step 5</div>;
-      case 6:
-        return <div>Step 6</div>;
-    }
-  };
+export default function LoginPage() {
+  const router = useRouter();
   return (
-    <Card className="w-full max-w-4xl shadow-xl">
-      <CardContent className="grid gap-10 md:grid-cols-3 p-8">
-        {/* Steps */}
-        <div className="hidden md:block">
-          <RegisterSteps currentStep={step} />
+    <Card className="w-full max-w-md shadow-xl">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+        <p className="text-sm text-muted-foreground text-center">
+          Register to manage your restaurant
+        </p>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
+          <Input placeholder="Enter your name." />
+          <Input placeholder="Enter your Phone number." />
+          <Input placeholder="Email address" />
+          <Input type="password" placeholder="Password" />
+          <Input type="password" placeholder="Confirm password" />
         </div>
 
-        {/* Form */}
-        <div className="md:col-span-2">{renderStepForm()}</div>
+        <Button onClick={() => router.push('/onBoarding')} className="w-full">Register</Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          You have an account?{' '}
+          <Link href="/login" className="text-primary hover:underline">
+            Login
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );
