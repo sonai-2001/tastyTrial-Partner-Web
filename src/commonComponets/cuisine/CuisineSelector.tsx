@@ -20,28 +20,27 @@ const CUISINES = [
 
 export default function CuisineSelector({
   max = 3,
+  values = [],
   onChange,
 }: {
   max?: number;
+  values?: string[];
   onChange?: (values: string[]) => void;
 }) {
   const [search, setSearch] = useState('');
-  const [selected, setSelected] = useState<string[]>([]);
+  const selected = values;
   //   const [cuisines, setCuisines] = useState(CUISINES)
 
   const filtered = CUISINES.filter((c) => c.toLowerCase().includes(search.toLowerCase()));
 
   function toggleCuisine(cuisine: string) {
-    let updated: string[];
-
-    if (selected.includes(cuisine)) {
-      updated = selected.filter((c) => c !== cuisine);
-    } else {
-      updated = [...selected, cuisine];
+    if (onChange) {
+      if (selected.includes(cuisine)) {
+        onChange(selected.filter((c) => c !== cuisine));
+      } else if (selected.length < max) {
+        onChange([...selected, cuisine]);
+      }
     }
-
-    setSelected(updated);
-    onChange?.(updated);
   }
 
   return (

@@ -7,13 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function FileUploader({
   max = 5,
+  value = [],
   onChange,
 }: {
   max?: number;
-  onChange?: (files: File[]) => void;
+  value?: (File | string)[];
+  onChange?: (files: (File | string)[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<File[]>([]);
+  const files = value;
   const filesLimit = files.length >= max;
 
   function handleSelect(e: React.ChangeEvent<HTMLInputElement>) {
@@ -23,13 +25,11 @@ export default function FileUploader({
     const newFiles = Array.from(selected);
     const updated = [...files, ...newFiles].slice(0, max);
 
-    setFiles(updated);
     onChange?.(updated);
   }
 
   function removeFile(index: number) {
     const updated = files.filter((_, i) => i !== index);
-    setFiles(updated);
     onChange?.(updated);
   }
 
@@ -72,7 +72,7 @@ export default function FileUploader({
             {files.map((file, index) => (
               <div key={index} className="group relative overflow-hidden rounded-lg border">
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={typeof file === 'string' ? file : URL.createObjectURL(file)}
                   alt="menu"
                   className="h-28 w-full object-cover"
                 />

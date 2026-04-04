@@ -2,10 +2,11 @@
 
 import { ShoppingBag, UtensilsCrossed, ChevronRight } from 'lucide-react';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { TOnboardingFormValues } from '../../schemas/onboardingSchema';
 
 const services = [
   {
@@ -40,6 +41,14 @@ type StepAccountProps = {
 };
 
 export default function ServiceSelection({ onNext }: StepAccountProps) {
+  const { setValue, watch, formState: { errors } } = useFormContext<TOnboardingFormValues>();
+  const selectedService = watch('serviceType');
+
+  const handleSelect = (id: string) => {
+    setValue('serviceType', id as any, { shouldValidate: true });
+    onNext();
+  };
+
   return (
     <Card>
       {/* Header */}
@@ -53,8 +62,11 @@ export default function ServiceSelection({ onNext }: StepAccountProps) {
         {services.map((service) => (
           <Card
             key={service.id}
-            onClick={onNext}
-            className="group cursor-pointer border transition-all hover:border-primary hover:shadow-md"
+            onClick={() => handleSelect(service.id)}
+            className={cn(
+              'group cursor-pointer border transition-all hover:border-primary hover:shadow-md',
+              selectedService === service.id && 'border-primary ring-1 ring-primary'
+            )}
           >
             <CardContent className="p-5">
               <div className="flex items-center justify-between gap-4">
@@ -65,10 +77,10 @@ export default function ServiceSelection({ onNext }: StepAccountProps) {
                     <p className="text-sm text-muted-foreground">{service.description}</p>
                   </div>
 
-                  <Button variant="link" className="h-auto p-0 text-primary">
+                  <div className="flex items-center text-sm font-medium text-primary">
                     Register now
                     <ChevronRight className="ml-1 h-4 w-4" />
-                  </Button>
+                  </div>
                 </div>
 
                 {/* Right Icon */}
@@ -93,14 +105,10 @@ export default function ServiceSelection({ onNext }: StepAccountProps) {
             </CardContent>
           </Card>
         ))}
+        {errors.serviceType && (
+          <p className="text-sm font-medium text-destructive">{errors.serviceType.message}</p>
+        )}
       </CardContent>
-
-      {/* Footer */}
-      {/* <CardFooter className="border-t pt-4 flex justify-end">
-        <Button onClick={onNext}>
-          Continue
-        </Button>
-      </CardFooter> */}
     </Card>
   );
 }

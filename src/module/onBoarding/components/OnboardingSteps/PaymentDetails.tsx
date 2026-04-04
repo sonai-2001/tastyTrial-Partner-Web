@@ -1,8 +1,13 @@
 'use client';
 
+import { useFormContext } from 'react-hook-form';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+import { TOnboardingFormValues } from '../../schemas/onboardingSchema';
 
 type StepAccountProps = {
   onNext: () => void;
@@ -10,6 +15,11 @@ type StepAccountProps = {
 };
 
 const PaymentDetails = ({ onNext, onBack }: StepAccountProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TOnboardingFormValues>();
+
   return (
     <Card>
       {/* Header */}
@@ -27,48 +37,44 @@ const PaymentDetails = ({ onNext, onBack }: StepAccountProps) => {
         <div className="space-y-4">
           <h3 className="text-sm font-semibold text-muted-foreground">Bank Account Details</h3>
 
-          <Input placeholder="Account Holder Name" />
+          <div className="space-y-2">
+            <Label htmlFor="accountHolderName">Account Holder Name</Label>
+            <Input
+              id="accountHolderName"
+              placeholder="Account Holder Name"
+              {...register('accountHolderName')}
+            />
+            {errors.accountHolderName && (
+              <p className="text-xs text-destructive">{errors.accountHolderName.message}</p>
+            )}
+          </div>
 
-          <Input placeholder="Bank Name" />
+          <div className="space-y-2">
+            <Label htmlFor="bankName">Bank Name</Label>
+            <Input id="bankName" placeholder="Bank Name" {...register('bankName')} />
+            {errors.bankName && <p className="text-xs text-destructive">{errors.bankName.message}</p>}
+          </div>
 
-          <Input placeholder="Account Number" />
+          <div className="space-y-2">
+            <Label htmlFor="accountNumber">Account Number</Label>
+            <Input id="accountNumber" placeholder="Account Number" {...register('accountNumber')} />
+            {errors.accountNumber && (
+              <p className="text-xs text-destructive">{errors.accountNumber.message}</p>
+            )}
+          </div>
 
-          <Input placeholder="IFSC Code" />
+          <div className="space-y-2">
+            <Label htmlFor="ifscCode">IFSC Code</Label>
+            <Input id="ifscCode" placeholder="IFSC Code" {...register('ifscCode')} />
+            {errors.ifscCode && <p className="text-xs text-destructive">{errors.ifscCode.message}</p>}
+          </div>
 
-          <Input placeholder="UPI ID (Optional)" />
+          <div className="space-y-2">
+            <Label htmlFor="upiId">UPI ID (Optional)</Label>
+            <Input id="upiId" placeholder="UPI ID (Optional)" {...register('upiId')} />
+            {errors.upiId && <p className="text-xs text-destructive">{errors.upiId.message}</p>}
+          </div>
         </div>
-
-        {/* Document Upload */}
-        {/* <div className="space-y-4">
-
-          <h3 className="text-sm font-semibold text-muted-foreground">
-            Verification Documents
-          </h3>
-
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Upload bank passbook image
-            </label>
-
-            <Input type="file" accept="image/*,application/pdf" />
-
-            <p className="text-xs text-muted-foreground">
-              JPG, PNG, PDF (Max 5MB)
-            </p>
-          </div>
-
-
-         
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Upload Aadhaar Card
-            </label>
-
-            <Input type="file" accept="image/*,application/pdf" />
-          </div>
-
-        </div> */}
       </CardContent>
 
       {/* Footer */}
@@ -78,7 +84,7 @@ const PaymentDetails = ({ onNext, onBack }: StepAccountProps) => {
         </Button>
 
         <Button className="w-full sm:w-auto" onClick={onNext}>
-          Next
+          Finish
         </Button>
       </CardFooter>
     </Card>
