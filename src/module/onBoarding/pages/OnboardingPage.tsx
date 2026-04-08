@@ -181,9 +181,13 @@ export default function OnboardingPage() {
       };
 
 
-      updateOnboarding.mutate(payload);
+      updateOnboarding.mutate(payload,{
+        onSuccess:()=>{
+          setStep(nextStep);
+        }
+      });
 
-      setStep(nextStep);
+      
     }
   };
 
