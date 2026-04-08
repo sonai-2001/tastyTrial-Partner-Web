@@ -11,8 +11,9 @@ import PaymentDetails from '../components/OnboardingSteps/PaymentDetails';
 import RestaurantDetails from '../components/OnboardingSteps/RestaurantDetails';
 import ServiceAvailability from '../components/OnboardingSteps/ServiceAvailability';
 import ServiceSelection from '../components/OnboardingSteps/ServiceSelector';
-import { useGetUserData, useOnboardingUpdate } from '../hooks/useOnboardingHooks';
 import { onboardingSchema, TOnboardingFormValues } from '../schemas/onboardingSchema';
+import { useGetOnboardingDetails, useUpdateOnboarding } from '@/api/hooks/onboarding/hooks';
+import { IUpdateOnboardingDto } from '@/api/hooks/onboarding/schema';
 
 const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
   1: ['serviceType'],
@@ -34,8 +35,8 @@ const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
-  const { data: userData, isLoading } = useGetUserData();
-  const updateOnboarding = useOnboardingUpdate();
+  const { data: userData, isLoading } = useGetOnboardingDetails();
+  const updateOnboarding = useUpdateOnboarding();
 
   const methods = useForm<TOnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
@@ -74,44 +75,59 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     if (userData?.data) {
-      // Pre-fill form with existing user data
-      const details = userData.data.moreprofileDetails as any;
-      
-      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
+      const details = userData.data;
+
       const initialAvailability: any = {};
-      days.forEach(day => {
-        const existing = details?.availability?.[day];
-        initialAvailability[day] = {
-          enabled: existing ? !!existing.enabled : false,
-          open: existing?.open || '',
-          close: existing?.close || '',
+      const days = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ] as const;
+
+      // Map API array back to form object
+      days.forEach((dayName) => {
+        const existing = details.serviceAvailability?.find((d) => d.day === dayName);
+        initialAvailability[dayName] = {
+          enabled: existing ? !!existing.isOpen : false,
+          open: existing?.openTime || '',
+          close: existing?.closeTime || '',
         };
       });
 
       reset({
-        serviceType: details?.serviceType || '',
-        restaurantName: details?.restaurantName || '',
-        ownerName: details?.ownerName || '',
-        email: userData.data.email || '',
-        phone: details?.phone || '',
-        address: details?.address || '',
-        city: details?.city || '',
-        pincode: details?.pincode || '',
-        cuisines: details?.cuisines || [],
-        gstNumber: details?.gstNumber || '',
-        fssaiLicenseNumber: details?.fssaiLicenseNumber || '',
-        restaurantImages: details?.restaurantImages || [],
+        serviceType:
+          details.serviceType === 'delivery_dining'
+            ? 'both'
+            : details.serviceType === 'delivery_only'
+              ? 'delivery'
+              : details.serviceType === 'dining_only'
+                ? 'dining'
+                : 'delivery',
+        restaurantName: details.restaurantDetails?.restaurantName || '',
+        ownerName: details.restaurantDetails?.ownerName || '',
+        email: details.restaurantDetails?.email || '',
+        phone: details.restaurantDetails?.phone || '',
+        address: details.restaurantDetails?.address || '',
+        city: details.restaurantDetails?.city || '',
+        pincode: details.restaurantDetails?.pincode || '',
+        cuisines: details.restaurantDetails?.cuisines || [],
+        gstNumber: details.restaurantDetails?.gstNumber || '',
+        fssaiLicenseNumber: details.restaurantDetails?.fssaiNumber || '',
+        restaurantImages: details.restaurantDetails?.images || [],
         availability: initialAvailability,
-        accountHolderName: details?.accountHolderName || '',
-        bankName: details?.bankName || '',
-        accountNumber: details?.accountNumber || '',
-        ifscCode: details?.ifscCode || '',
-        upiId: details?.upiId || '',
+        accountHolderName: details.paymentDetails?.accountHolderName || '',
+        bankName: details.paymentDetails?.bankName || '',
+        accountNumber: details.paymentDetails?.accountNumber || '',
+        ifscCode: details.paymentDetails?.ifscCode || '',
+        upiId: details.paymentDetails?.upiId || '',
       });
 
-      // Set initial step from backend if available
-      if (details?.onboardingStep) {
-        setStep(details.onboardingStep);
+      if (details.step) {
+        setStep(details.step);
       }
     }
   }, [userData, reset]);
@@ -124,26 +140,48 @@ export default function OnboardingPage() {
       const currentValues = getValues();
       const nextStep = Math.min(step + 1, 4);
 
-      // Filter availability to only include enabled days
-      const filteredAvailability = Object.entries(currentValues.availability || {}).reduce(
-        (acc, [day, data]) => {
-          if (data.enabled) {
-            acc[day] = data;
-          }
-          return acc;
-        },
-        {} as Record<string, any>,
-      );
-
       // Determine if we should update the step in the backend
-      const lastStepFromBackend = (userData?.data?.moreprofileDetails as any)?.onboardingStep || 1;
+      const lastStepFromBackend = userData?.data?.step || 1;
       const stepToBackend = Math.max(lastStepFromBackend, nextStep);
 
-      updateOnboarding.mutate({
-        ...currentValues,
-        availability: filteredAvailability,
-        onboardingStep: stepToBackend,
-      });
+      // Transform form data to payload structure
+      const payload: IUpdateOnboardingDto = {
+        step: stepToBackend,
+        serviceType: (currentValues.serviceType === 'both'
+          ? 'delivery_dining'
+          : currentValues.serviceType === 'delivery'
+            ? 'delivery_only'
+            : 'dining_only') as IUpdateOnboardingDto['serviceType'],
+        restaurantDetails: {
+          restaurantName: currentValues.restaurantName,
+          ownerName: currentValues.ownerName,
+          email: currentValues.email,
+          phone: currentValues.phone,
+          address: currentValues.address,
+          city: currentValues.city,
+          pincode: currentValues.pincode,
+          cuisines: currentValues.cuisines,
+          gstNumber: currentValues.gstNumber,
+          fssaiNumber: currentValues.fssaiLicenseNumber,
+          images: currentValues.restaurantImages,
+        },
+        serviceAvailability: Object.entries(currentValues.availability).map(([day, data]) => ({
+          day,
+          openTime: data.open,
+          closeTime: data.close,
+          isOpen: data.enabled,
+        })),
+        paymentDetails: {
+          accountHolderName: currentValues.accountHolderName,
+          bankName: currentValues.bankName,
+          accountNumber: currentValues.accountNumber,
+          ifscCode: currentValues.ifscCode,
+          upiId: currentValues.upiId,
+        },
+      };
+
+
+      updateOnboarding.mutate(payload);
 
       setStep(nextStep);
     }

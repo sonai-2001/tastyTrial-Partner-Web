@@ -4,12 +4,12 @@ import axiosInstance from '@/api/axiosInstance';
 import { endpoints } from '@/api/endpoints';
 import { TCommonSchema } from '@/types/common/common.schema';
 
-import { LoginQueryEnum } from './key';
-import { TAuthModel } from './schema';
+import { AuthQueryEnum } from './key';
+import { TAuthModel, TAuthSchema } from './schema';
 
 const useAuthLoginHook = () => {
   return useMutation<TAuthModel['ILoginResponse'], Error, TAuthModel['ILoginReq']>({
-    mutationKey: [LoginQueryEnum.Login],
+    mutationKey: [AuthQueryEnum.Login],
     mutationFn: async (payload: TAuthModel['ILoginReq']) => {
       const res = await axiosInstance.post<TAuthModel['ILoginResponse']>(
         endpoints.auth.login,
@@ -23,7 +23,7 @@ const useAuthLoginHook = () => {
 
 const useForgotPassHook = () => {
   return useMutation<TCommonSchema['BaseApiResponse'], Error, TAuthModel['IForgotPassReq']>({
-    mutationKey: [LoginQueryEnum.Forgot],
+    mutationKey: [AuthQueryEnum.Forgot],
     mutationFn: async (payload: TAuthModel['IForgotPassReq']) => {
       const res = await axiosInstance.post<TCommonSchema['BaseApiResponse']>(
         endpoints.auth.forgot,
@@ -37,7 +37,7 @@ const useForgotPassHook = () => {
 
 export const useResetPassHook = () => {
   return useMutation<TAuthModel['IResetPassResponse'], Error, TAuthModel['IResetPassReq']>({
-    mutationKey: [LoginQueryEnum.Reset],
+    mutationKey: [AuthQueryEnum.Reset],
     mutationFn: async (payload: TAuthModel['IResetPassReq']) => {
       const res = await axiosInstance.post<TAuthModel['IResetPassResponse']>(
         endpoints.auth.reset,
@@ -49,8 +49,23 @@ export const useResetPassHook = () => {
   });
 };
 
+export const useRegisterHook = () => {
+  return useMutation<TAuthSchema['IRegisterResponse'], Error, TAuthSchema['IRegisterReq']>({
+    mutationKey: [AuthQueryEnum.Register],
+    mutationFn: async (payload: TAuthSchema['IRegisterReq']) => {
+      const res = await axiosInstance.post<TAuthSchema['IRegisterResponse']>(
+        endpoints.auth.register,
+        payload,
+      );
+      return res?.data;
+    },
+  });
+};
+
 export const authService = {
   useAuthLoginHook,
   useForgotPassHook,
   useResetPassHook,
+  useRegisterHook,
 };
+

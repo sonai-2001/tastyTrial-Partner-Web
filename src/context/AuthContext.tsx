@@ -52,9 +52,11 @@ const AuthProvider = ({ children }: Props) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['userDetails', hasToken],
     queryFn: fetchUserDetails,
-    enabled: !!hasToken,
+    // enabled: !!hasToken,
+    enabled:false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    
   });
 
   const router = useRouter();
@@ -87,7 +89,7 @@ const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider value={values}>
-      <RBACProvider role={user?.role?.role || ''}>{children}</RBACProvider>
+      <RBACProvider role={''}>{children}</RBACProvider>
     </AuthContext.Provider>
   );
 };

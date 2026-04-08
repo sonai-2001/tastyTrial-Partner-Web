@@ -9,7 +9,7 @@ import { baseUrlApi, endpoints } from './endpoints';
 console.info('baseUrlApi', baseUrlApi);
 const axiosInstance = axios.create({
   baseURL: baseUrlApi,
-});
+});parseCookies
 
 let oauthAppAccessToken: string | null = null;
 

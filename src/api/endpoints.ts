@@ -9,6 +9,7 @@ export const mediaUrl = (url: string, path: string = 'users') => {
 export const endpoints = {
   auth: {
     login: 'auth/login-user',
+    register:'auth/register',
     forgot: 'auth/forgot-password',
     reset: 'auth/reset-password',
     refresh: 'auth/refresh-token',
@@ -109,4 +110,9 @@ export const endpoints = {
     getall: 'v1/admin/rating-review/getall',
     statusChange: 'v1/admin/rating-review/status-change',
   },
+  onboarding: {
+    getDetails: 'onboarding/partner/onboardingDetals',
+    update: 'onboarding/partner/onboardingUpdate',
+  },
 };
+
