@@ -14,6 +14,7 @@ import ServiceSelection from '../components/OnboardingSteps/ServiceSelector';
 import { onboardingSchema, TOnboardingFormValues } from '../schemas/onboardingSchema';
 import { useGetOnboardingDetails, useUpdateOnboarding } from '@/api/hooks/onboarding/hooks';
 import { IUpdateOnboardingDto } from '@/api/hooks/onboarding/schema';
+import { useRouter } from 'next/navigation';
 
 const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
   1: ['serviceType'],
@@ -37,6 +38,7 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const { data: userData, isLoading } = useGetOnboardingDetails();
   const updateOnboarding = useUpdateOnboarding();
+  const router=useRouter()
 
   const methods = useForm<TOnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
@@ -138,7 +140,7 @@ export default function OnboardingPage() {
 
     if (isValid) {
       const currentValues = getValues();
-      const nextStep = Math.min(step + 1, 4);
+      const nextStep = Math.min(step + 1, 5);
 
       // Determine if we should update the step in the backend
       const lastStepFromBackend = userData?.data?.step || 1;
@@ -183,7 +185,11 @@ export default function OnboardingPage() {
 
       updateOnboarding.mutate(payload,{
         onSuccess:()=>{
-          setStep(nextStep);
+          if(nextStep === 5){
+            router.push('/dashboard');
+          }else{
+            setStep(nextStep);
+          }
         }
       });
 

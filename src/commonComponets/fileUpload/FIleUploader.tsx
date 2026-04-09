@@ -4,6 +4,7 @@ import { Upload, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { imageCreate, uploadImage } from '@/lib/uploadImage';
 
 export default function FileUploader({
   max = 5,
@@ -15,18 +16,38 @@ export default function FileUploader({
   onChange?: (files: (File | string)[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
   const files = value;
   const filesLimit = files.length >= max;
 
-  function handleSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const selected = e.target.files;
-    if (!selected) return;
+  console.log('files are -------->',files)
 
-    const newFiles = Array.from(selected);
-    const updated = [...files, ...newFiles].slice(0, max);
+async function handleSelect(e: React.ChangeEvent<HTMLInputElement>) {
+  const selected = e.target.files;
+  if (!selected) return;
+
+  const newFiles = Array.from(selected);
+
+  setUploading(true);
+
+  try {
+    const uploadedUrls: string[] = [];
+
+    for (const file of newFiles) {
+      const url = await uploadImage(file);
+      console.log('url that is coming from the upload ai function----->',url)
+      uploadedUrls.push(url);
+    }
+
+    const updated = [...files, ...uploadedUrls].slice(0, max);
 
     onChange?.(updated);
+  } catch (err) {
+    console.error("Upload failed", err);
+  } finally {
+    setUploading(false);
   }
+}
 
   function removeFile(index: number) {
     const updated = files.filter((_, i) => i !== index);
@@ -50,7 +71,9 @@ export default function FileUploader({
         >
           <Upload className="h-8 w-8 text-muted-foreground" />
 
-          <p className="mt-2 font-medium ">Add more images</p>
+          <p className="mt-2 font-medium">
+             {uploading ? "Uploading..." : "Add more images"}
+           </p>
           <p className="text-xs text-muted-foreground">
             jpg, png or jpeg formats only • Max {max} files
           </p>
@@ -62,7 +85,7 @@ export default function FileUploader({
             accept="image/*"
             hidden
             onChange={handleSelect}
-            disabled={filesLimit}
+            disabled={filesLimit || uploading}
           />
         </div>
 
@@ -72,7 +95,7 @@ export default function FileUploader({
             {files.map((file, index) => (
               <div key={index} className="group relative overflow-hidden rounded-lg border">
                 <img
-                  src={typeof file === 'string' ? file : URL.createObjectURL(file)}
+                  src={typeof file === 'string' ? imageCreate(file) : URL.createObjectURL(file)}
                   alt="menu"
                   className="h-28 w-full object-cover"
                 />
