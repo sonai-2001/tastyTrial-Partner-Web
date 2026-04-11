@@ -1,15 +1,16 @@
+import { UserRole } from "@/types/apps/userTypes";
+import { TCommonSchema } from "@/types/common/common.schema";
+
 export interface IUserData {
-  _id: string;
-  name: string;
+ name: string;
   email: string;
   phone: string;
-  roles: string[];
-  profileImage: string | null;
+  password?: string;
+  roles: UserRole[];
+  profileImage?: string | null;
   isEmailVerified: boolean;
   isPhoneVerified: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  lastLoginAt?: Date;
 }
 
 export interface IRegisterResponse {
@@ -30,8 +31,23 @@ export type TAuthModel = {
   };
   IRegisterResponse: IRegisterResponse;
   IUserData: IUserData;
-  ILoginReq: any;
-  ILoginResponse: any;
+  ILoginReq: {
+    email:string,
+    password:string
+  };
+  ILoginResponse: TCommonSchema['BaseApiResponse'] & {
+    data:{
+      user:IUserData,
+      accessToken:string,
+    restaurants: {
+       _id: string;
+       name: string;
+  }[];
+    restaurantCount:number
+}
+
+    
+  }
   IForgotPassReq: any;
   IResetPassReq: any;
   IResetPassResponse: any;

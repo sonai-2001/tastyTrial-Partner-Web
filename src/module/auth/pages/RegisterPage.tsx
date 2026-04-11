@@ -13,7 +13,7 @@ import { useRegisterHook } from '@/api/hooks/auth/hooks';
 import { useAuth } from '@/hooks/useAuth';
 import { setCookie } from 'nookies';
 
-export default function LoginPage() {
+export default function RegisterPage() {
 
   const {control,formState:{errors},handleSubmit}=useForm<RegisterFormValues>({
     resolver : zodResolver(registerSchema),

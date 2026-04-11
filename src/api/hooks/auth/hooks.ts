@@ -7,7 +7,7 @@ import { TCommonSchema } from '@/types/common/common.schema';
 import { AuthQueryEnum } from './key';
 import { TAuthModel, TAuthSchema } from './schema';
 
-const useAuthLoginHook = () => {
+export const useAuthLoginHook = () => {
   return useMutation<TAuthModel['ILoginResponse'], Error, TAuthModel['ILoginReq']>({
     mutationKey: [AuthQueryEnum.Login],
     mutationFn: async (payload: TAuthModel['ILoginReq']) => {

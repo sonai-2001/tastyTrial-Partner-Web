@@ -1,8 +1,5 @@
-export type UserRole = {
-  _id: string;
-  role: string;
-  roleDisplayName: string;
-};
+export type UserRole = "user" | "res_partner" | "driver" | "admin";
+
 export type TUsersType = {
   _id: string;
   role: UserRole;

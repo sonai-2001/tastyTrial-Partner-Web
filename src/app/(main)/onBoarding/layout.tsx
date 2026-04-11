@@ -4,7 +4,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="relative min-h-screen overflow-hidden bg-muted">
       {/* ================= DASHBOARD SHIMMER ================= */}
-      <div className="absolute inset-0 grid grid-cols-12 gap-6 p-8 opacity-50">
+      <div className="absolute inset-0 grid grid-cols-12 gap-6 p-8 opacity-20">
         {/* ===== Sidebar ===== */}
         <aside className="col-span-3 flex flex-col justify-between rounded-2xl bg-background/40 p-5">
           <div className="space-y-8">

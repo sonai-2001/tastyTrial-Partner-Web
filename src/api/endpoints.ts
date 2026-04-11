@@ -8,7 +8,7 @@ export const mediaUrl = (url: string, path: string = 'users') => {
 
 export const endpoints = {
   auth: {
-    login: 'auth/login-user',
+    login: 'auth/login',
     register:'auth/register',
     forgot: 'auth/forgot-password',
     reset: 'auth/reset-password',
