@@ -12,7 +12,7 @@ import RestaurantDetails from '../components/OnboardingSteps/RestaurantDetails';
 import ServiceAvailability from '../components/OnboardingSteps/ServiceAvailability';
 import ServiceSelection from '../components/OnboardingSteps/ServiceSelector';
 import { onboardingSchema, TOnboardingFormValues } from '../schemas/onboardingSchema';
-import { useGetOnboardingDetails, useUpdateOnboarding } from '@/api/hooks/onboarding/hooks';
+import { useGetOnboardingDetails, useUpdateOnboarding, useGetCuisines } from '@/api/hooks/onboarding/hooks';
 import { IUpdateOnboardingDto } from '@/api/hooks/onboarding/schema';
 import { useRouter } from 'next/navigation';
 
@@ -37,6 +37,7 @@ const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const { data: userData, isLoading } = useGetOnboardingDetails();
+  const { data: cuisinesData } = useGetCuisines();
   const updateOnboarding = useUpdateOnboarding();
   const router=useRouter()
 
@@ -204,7 +205,7 @@ export default function OnboardingPage() {
       case 1:
         return <ServiceSelection onNext={onNextStep} />;
       case 2:
-        return <RestaurantDetails onNext={onNextStep} onBack={onBackStep} />;
+        return <RestaurantDetails cuisines={cuisinesData?.data || []} onNext={onNextStep} onBack={onBackStep} />;
       case 3:
         return <ServiceAvailability onNext={onNextStep} onBack={onBackStep} />;
       case 4:

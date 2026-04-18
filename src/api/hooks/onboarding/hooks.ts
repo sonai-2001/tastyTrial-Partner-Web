@@ -28,3 +28,13 @@ export const useUpdateOnboarding = () => {
     },
   });
 };
+
+export const useGetCuisines = () => {
+  return useQuery({
+    queryKey: ['getCuisines'],
+    queryFn: async () => {
+      const res = await axiosInstance.get(endpoints.cuisines.all);
+      return res?.data;
+    },
+  });
+};

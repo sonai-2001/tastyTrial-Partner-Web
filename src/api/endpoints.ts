@@ -114,5 +114,8 @@ export const endpoints = {
     getDetails: 'onboarding/partner/onboardingDetals',
     update: 'onboarding/partner/onboardingUpdate',
   },
+  cuisines: {
+    all: 'cuisines?active=true',
+  },
 };
 

@@ -6,42 +6,42 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
-const CUISINES = [
-  'North Indian',
-  'Chinese',
-  'Fast Food',
-  'South Indian',
-  'Biryani',
-  'Pizza',
-  'Italian',
-  'Mexican',
-  'Continental',
-];
+interface CuisineOption {
+  _id: string;
+  name: string;
+}
 
 export default function CuisineSelector({
   max = 3,
   values = [],
+  options = [],
   onChange,
 }: {
   max?: number;
   values?: string[];
+  options?: CuisineOption[];
   onChange?: (values: string[]) => void;
 }) {
   const [search, setSearch] = useState('');
   const selected = values;
-  //   const [cuisines, setCuisines] = useState(CUISINES)
 
-  const filtered = CUISINES.filter((c) => c.toLowerCase().includes(search.toLowerCase()));
+  const filtered = options.filter((c) => 
+    c.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  function toggleCuisine(cuisine: string) {
+  function toggleCuisine(cuisineId: string) {
     if (onChange) {
-      if (selected.includes(cuisine)) {
-        onChange(selected.filter((c) => c !== cuisine));
+      if (selected.includes(cuisineId)) {
+        onChange(selected.filter((id) => id !== cuisineId));
       } else if (selected.length < max) {
-        onChange([...selected, cuisine]);
+        onChange([...selected, cuisineId]);
       }
     }
   }
+
+  const getCuisineName = (id: string) => {
+    return options.find(o => o._id === id)?.name || id;
+  };
 
   return (
     <Card className="w-full">
@@ -63,14 +63,14 @@ export default function CuisineSelector({
         {/* Selected */}
         {selected.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {selected.map((item) => (
+            {selected.map((id) => (
               <Badge
-                key={item}
+                key={id}
                 variant="secondary"
                 className="cursor-pointer"
-                onClick={() => toggleCuisine(item)}
+                onClick={() => toggleCuisine(id)}
               >
-                {item} ✕
+                {getCuisineName(id)} ✕
               </Badge>
             ))}
           </div>
@@ -79,18 +79,19 @@ export default function CuisineSelector({
         {/* Options */}
         <div className="grid grid-cols-2 gap-3">
           {filtered.map((cuisine) => {
-            const active = selected.includes(cuisine);
+            const active = selected.includes(cuisine._id);
 
             return (
               <Button
-                key={cuisine}
+                key={cuisine._id}
                 type="button"
                 variant={active ? 'default' : 'outline'}
-                className="justify-start"
+                className="justify-start truncate"
                 disabled={!active && selected.length >= max}
-                onClick={() => toggleCuisine(cuisine)}
+                onClick={() => toggleCuisine(cuisine._id)}
+                title={cuisine.name}
               >
-                {cuisine}
+                {cuisine.name}
               </Button>
             );
           })}

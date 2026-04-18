@@ -10,11 +10,12 @@ import { Label } from '@/components/ui/label';
 import { TOnboardingFormValues } from '../../schemas/onboardingSchema';
 
 type StepAccountProps = {
+  cuisines: any[];
   onNext: () => void;
   onBack: () => void;
 };
 
-const RestaurantDetails = ({ onNext, onBack }: StepAccountProps) => {
+const RestaurantDetails = ({ cuisines, onNext, onBack }: StepAccountProps) => {
   const {
     register,
     control,
@@ -88,6 +89,7 @@ const RestaurantDetails = ({ onNext, onBack }: StepAccountProps) => {
             render={({ field }) => (
               <CuisineSelector
                 max={3}
+                options={cuisines}
                 values={field.value}
                 onChange={(values) => field.onChange(values)}
               />
