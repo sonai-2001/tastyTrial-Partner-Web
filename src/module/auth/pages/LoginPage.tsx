@@ -35,6 +35,7 @@ export default function LoginPage() {
     console.log("data=======>>>>>>>>>>",data);
     login(data,{
       onSuccess:(res)=>{
+        console.log('response after login ', res)
         const resCount = res?.data?.restaurantCount || 0;
         setHasToken(res?.data?.accessToken)
         setCookie(null,stotageTokenName,res?.data?.accessToken,{
