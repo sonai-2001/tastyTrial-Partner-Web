@@ -1,9 +1,11 @@
 'use client'
 import Link from 'next/link';
 
+import { Typography } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginFormValues, loginSchema } from '../zod/login.zod';
@@ -27,92 +29,103 @@ export default function LoginPage() {
     }
   })
 
-  const stotageTokenName = process.env.NEXT_PUBLIC_TOKEN_NAME as string
+  const storageTokenName = process.env.NEXT_PUBLIC_TOKEN_NAME as string
 
-  console.log("errors are ======>",errors)
-
-  const onSubmit = (data:LoginFormValues)=>{
-    console.log("data=======>>>>>>>>>>",data);
-    login(data,{
-      onSuccess:(res)=>{
-        console.log('response after login ', res)
+  const onSubmit = (data: LoginFormValues) => {
+    login(data, {
+      onSuccess: (res) => {
         const resCount = res?.data?.restaurantCount || 0;
         setHasToken(res?.data?.accessToken)
-        setCookie(null,stotageTokenName,res?.data?.accessToken,{
-        path:"/"
-      })
+        setCookie(null, storageTokenName, res?.data?.accessToken, {
+          path: "/"
+        })
 
-        if(resCount===0){
-        router.push("/onBoarding")
-        }else if (resCount===1){
-        router.push(`/dashboard/${res?.data?.restaurants[0]?._id}`)
-        }else{
-        router.push("/restaurant-selection")
-       }
-
+        if (resCount === 0) {
+          router.push("/onBoarding")
+        } else if (resCount === 1) {
+          router.push(`/dashboard/${res?.data?.restaurants[0]?._id}`)
+        } else {
+          router.push("/restaurant-selection")
+        }
       }
     })
-
-    
-    
   }
+
   return (
-    <Card className="w-full max-w-md shadow-xl">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
-        <p className="text-sm text-muted-foreground text-center">
-          Log in to manage your restaurant
-        </p>
+    <Card className="w-full max-w-md border-none bg-surface-lowest p-4">
+      <CardHeader className="space-y-1 pb-8 text-center">
+        <Typography variant="h2" className="font-display text-4xl font-black text-foreground">
+          Welcome back
+        </Typography>
+        <Typography variant="body2" className="text-secondary/60">
+          Access your restaurant ledger to manage operations.
+        </Typography>
       </CardHeader>
 
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-         
-          <Controller
-          name='email'
-          control={control}
-          render={({field})=>{
-            return <>
-               <Input {...field} placeholder="Email address" />
-               {
-                errors?.email?.message && (
-                  <p className='text-red-500'>
-                    {errors?.email?.message}
-                  </p>
-                )
-               }
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="email">EMAIL ADDRESS</Label>
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <Input 
+                    {...field} 
+                    id="email"
+                    placeholder="e.g. chef@tastytrial.com" 
+                    className={errors?.email ? "border-destructive/50 ring-destructive/20" : ""}
+                  />
+                )}
+              />
+              {errors?.email?.message && (
+                <p className="text-[10px] font-bold text-destructive uppercase tracking-wider">
+                  {errors?.email?.message}
+                </p>
+              )}
+            </div>
 
-            </>
-
-          }}
-          />
-          {/* <Input type="password" placeholder="Password" /> */}
-          <Controller
-          name='password'
-          control={control}
-          render={({field})=>{
-            return <>
-            <Input {...field} type='password' placeholder='Enter your password'/>
-            {
-              errors?.password?.message && (
-                <p className='text-red-500'>
+            <div className="space-y-1.5">
+              <Label htmlFor="password">PASSPHRASE</Label>
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <Input 
+                    {...field} 
+                    id="password"
+                    type="password" 
+                    placeholder="••••••••" 
+                    className={errors?.password ? "border-destructive/50 ring-destructive/20" : ""}
+                  />
+                )}
+              />
+              {errors?.password?.message && (
+                <p className="text-[10px] font-bold text-destructive uppercase tracking-wider">
                   {errors?.password?.message}
                 </p>
-              )
-            }
-            </>
-          }}
-          />
-        </div>
+              )}
+            </div>
+          </div>
 
-        <Button className="w-full" onClick={handleSubmit(onSubmit)}>Log in</Button>
+          <Button 
+            type="submit" 
+            className="w-full h-12 font-display text-base font-bold tracking-tight text-primary shadow-xl"
+            disabled={loginPending}
+          >
+            {loginPending ? "Validating..." : "Login"}
+          </Button>
 
-        <p className="text-center text-sm text-muted-foreground">
-          Don’t have an account?{' '}
-          <Link href="/register" className="text-primary hover:underline">
-            Register
-          </Link>
-        </p>
+          <footer className="pt-4 text-center">
+            <p className="text-xs font-medium text-secondary/50">
+              New to the platform?{' '}
+              <Link href="/register" className="text-primary font-bold hover:underline transition-all">
+                Create Account
+              </Link>
+            </p>
+          </footer>
+        </form>
       </CardContent>
     </Card>
   );

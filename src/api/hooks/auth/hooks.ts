@@ -49,6 +49,19 @@ export const useResetPassHook = () => {
   });
 };
 
+export const useSendOtpHook = () => {
+  return useMutation<TCommonSchema['BaseApiResponse'], Error, TAuthSchema['ISendOtpReq']>({
+    mutationKey: [AuthQueryEnum.Register, "send-otp"],
+    mutationFn: async (payload: TAuthSchema['ISendOtpReq']) => {
+      const res = await axiosInstance.post<TCommonSchema['BaseApiResponse']>(
+        endpoints.auth.sendOtp,
+        payload,
+      );
+      return res?.data;
+    },
+  });
+};
+
 export const useRegisterHook = () => {
   return useMutation<TAuthSchema['IRegisterResponse'], Error, TAuthSchema['IRegisterReq']>({
     mutationKey: [AuthQueryEnum.Register],

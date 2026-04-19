@@ -28,6 +28,10 @@ export type TAuthModel = {
     email: string;
     phone: string;
     password: string;
+    otp: string;
+  };
+  ISendOtpReq: {
+    email: string;
   };
   IRegisterResponse: IRegisterResponse;
   IUserData: IUserData;
