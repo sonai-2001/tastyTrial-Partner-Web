@@ -118,5 +118,8 @@ export const endpoints = {
   cuisines: {
     all: 'cuisines?active=true',
   },
+  resSelector:{
+    getMyRestaurants:'restaurant/partner/my-restaurants',
+  }
 };
 

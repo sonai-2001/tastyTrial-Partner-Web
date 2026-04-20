@@ -5,10 +5,12 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useGetAllRestaurants } from "@/api/hooks/restaurant-selector/hooks"
 
 export default function RestaurantSelector() {
   const [filter, setFilter] = useState("all")
-
+  const {data:MyRestaurants, isLoading:MyRestaurantsLoading} = useGetAllRestaurants()
+  console.log('my all res are this ', MyRestaurants)
   const restaurants = [
     {
       id: 1,

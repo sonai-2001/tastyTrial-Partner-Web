@@ -10,13 +10,16 @@ import { fetchUserDetails } from '@/api/hooks/profile/hooks';
 import { ROUTES } from '@/navigation/routes';
 import { RBACProvider } from '@/rbac/context/RBACContext';
 
-import { AuthValuesType } from './types';
+import { activeRestaurantType, AuthValuesType } from './types';
 
 const defaultProvider: AuthValuesType = {
   user: null,
   isLoading: false,
   setUser: () => null,
   setHasToken: () => null,
+  activeRestaurant : null,
+  setActiveRestaurant : () => null,
+
 
   logout: () => Promise.resolve(),
 };
@@ -29,6 +32,8 @@ type Props = {
 
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<TAuthModel['IUserData'] | null>(null);
+
+  const [activeRestaurant , setActiveRestaurant]=useState<activeRestaurantType | null>(null)
   const storageTokenKeyName = process.env.NEXT_PUBLIC_TOKEN_NAME;
   const storageRefreshTokenKeyName = process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME;
   const storedToken = parseCookies(null, storageTokenKeyName);
@@ -85,6 +90,8 @@ const AuthProvider = ({ children }: Props) => {
     setUser,
     logout: handleLogout,
     setHasToken: setHasToken,
+    activeRestaurant,
+    setActiveRestaurant
   };
 
   return (

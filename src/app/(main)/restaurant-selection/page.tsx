@@ -10,6 +10,7 @@ import {
   ClipboardList 
 } from "lucide-react"
 import Link from "next/link"
+import { useGetAllRestaurants } from '@/api/hooks/restaurant-selector/hooks'
 
 const MOCK_STATIONS = [
   {
@@ -39,6 +40,10 @@ const MOCK_STATIONS = [
 ]
 
 export default function RestaurantSelectionPage() {
+    const {data:MyRestaurantsData, isLoading:MyRestaurantsLoading} = useGetAllRestaurants()
+    console.log('my all res are this ', MyRestaurantsData)
+    const MyRestaurants=MyRestaurantsData?.data || []
+
   return (
     <div className="flex flex-col lg:flex-row h-screen w-full bg-white overflow-hidden">
       {/* LEFT PANEL: Editorial Branding */}
@@ -78,9 +83,9 @@ export default function RestaurantSelectionPage() {
           </header>
 
           <div className="space-y-6">
-            {MOCK_STATIONS.map((station) => (
+            {MyRestaurants.map((station) => (
               <div 
-                key={station.id}
+                key={station._id}
                 className="group bg-surface-lowest p-8 rounded-3xl shadow-ambient hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/5 cursor-pointer"
               >
                 <div className="flex justify-between items-start gap-4">
@@ -89,15 +94,15 @@ export default function RestaurantSelectionPage() {
                       {station.name}
                     </Typography>
                     <Typography variant="small" className="text-[10px] font-black text-secondary/40 tracking-[0.2em] uppercase">
-                      {station.description}
+                      {station.serviceType}
                     </Typography>
                   </div>
                   
-                  <Link href={`/dashboard/${station.id}`}>
+                  <Link href={`/dashboard`}>
                     <Button 
-                      variant={station.variant === 'primary' ? 'default' : 'secondary'}
+                      variant='default'
                       className={`h-11 px-6 rounded-xl font-bold tracking-tight shadow-sm group/btn
-                        ${station.variant === 'primary' ? 'bg-primary' : 'bg-[#e2efff] text-foreground hover:bg-[#d4e6ff]'}`}
+                        ${station.isActive ? 'bg-primary' : 'bg-[#e2efff] text-foreground hover:bg-[#d4e6ff]'}`}
                     >
                       Access Station <ArrowRight className="ml-2 size-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
@@ -109,13 +114,14 @@ export default function RestaurantSelectionPage() {
                   <div className="flex items-center gap-2 text-secondary/40">
                     <User className="size-4" />
                     <Typography variant="small" className="font-bold tracking-tight">
-                      Mgr: {station.manager}
+                      {/* Mgr: {station.} */}
+                      {station.isActive ? 'Active' : 'Inactive'}
                     </Typography>
                   </div>
                   <div className="flex items-center gap-2 text-secondary/40">
                     <ClipboardList className="size-4" />
                     <Typography variant="small" className="font-bold tracking-tight">
-                      {station.chits} Active Chits
+                      {station.cuisines.length} Cuisines
                     </Typography>
                   </div>
                 </div>

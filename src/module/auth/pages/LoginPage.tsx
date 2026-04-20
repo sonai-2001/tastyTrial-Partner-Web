@@ -19,7 +19,7 @@ export default function LoginPage() {
   const {mutate:login, isPending : loginPending}=useAuthLoginHook()
 
   const router=useRouter()
-  const {setHasToken}=useAuth()
+  const {setHasToken , setActiveRestaurant}=useAuth()
 
   const {formState:{errors},control , handleSubmit}=useForm<LoginFormValues>({
     resolver:zodResolver(loginSchema),
@@ -43,7 +43,11 @@ export default function LoginPage() {
         if (resCount === 0) {
           router.push("/onBoarding")
         } else if (resCount === 1) {
-          router.push(`/dashboard/${res?.data?.restaurants[0]?._id}`)
+          setActiveRestaurant({
+            _id:res?.data?.restaurants[0]?._id,
+            name:res?.data?.restaurants[0]?.name
+          })
+          router.push(`/dashboard`)
         } else {
           router.push("/restaurant-selection")
         }
