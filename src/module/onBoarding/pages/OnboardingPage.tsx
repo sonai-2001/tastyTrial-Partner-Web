@@ -15,6 +15,7 @@ import { onboardingSchema, TOnboardingFormValues } from '../schemas/onboardingSc
 import { useGetOnboardingDetails, useUpdateOnboarding, useGetCuisines } from '@/api/hooks/onboarding/hooks';
 import { IUpdateOnboardingDto } from '@/api/hooks/onboarding/schema';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
   1: ['serviceType'],
@@ -35,6 +36,7 @@ const stepFields: Record<number, (keyof TOnboardingFormValues)[]> = {
 };
 
 export default function OnboardingPage() {
+  const {setActiveRestaurant}=useAuth()
   const [step, setStep] = useState(1);
   const { data: userData, isLoading } = useGetOnboardingDetails();
   const { data: cuisinesData } = useGetCuisines();
@@ -185,9 +187,15 @@ export default function OnboardingPage() {
 
 
       updateOnboarding.mutate(payload,{
-        onSuccess:()=>{
+        onSuccess:(res)=>{
           if(nextStep === 5){
-            router.push('/dashboard');
+            console.log("response after step 5", res)
+            setActiveRestaurant({
+              _id: res?.data?.completedRestaurant?._id || '',
+              name: res?.data?.completedRestaurant?.name || '',
+            })
+
+           router.push('/dashboard');
           }else{
             setStep(nextStep);
           }

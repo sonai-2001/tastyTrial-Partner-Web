@@ -11,6 +11,9 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useGetAllRestaurants } from '@/api/hooks/restaurant-selector/hooks'
+import { useAuth } from '@/hooks/useAuth'
+import { restaurantSelectorSchema } from '@/api/hooks/restaurant-selector/schema'
+import { toast } from 'sonner'
 
 const MOCK_STATIONS = [
   {
@@ -41,6 +44,19 @@ const MOCK_STATIONS = [
 
 export default function RestaurantSelectionPage() {
     const {data:MyRestaurantsData, isLoading:MyRestaurantsLoading} = useGetAllRestaurants()
+    const {setActiveRestaurant}=useAuth()
+
+    const handleRestaurantsClick= (restaurant:restaurantSelectorSchema['singleRes'])=>{
+      if(!restaurant._id || !restaurant.name){
+        toast.error("Invalid restaurant")
+        return
+      }
+      setActiveRestaurant({
+        _id: restaurant._id,
+        name: restaurant.name
+      })
+
+    }
     console.log('my all res are this ', MyRestaurantsData)
     const MyRestaurants=MyRestaurantsData?.data || []
 
@@ -103,6 +119,9 @@ export default function RestaurantSelectionPage() {
                       variant='default'
                       className={`h-11 px-6 rounded-xl font-bold tracking-tight shadow-sm group/btn
                         ${station.isActive ? 'bg-primary' : 'bg-[#e2efff] text-foreground hover:bg-[#d4e6ff]'}`}
+                      onClick={()=>{
+                        handleRestaurantsClick(station)
+                      }}  
                     >
                       Access Station <ArrowRight className="ml-2 size-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>

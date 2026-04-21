@@ -33,7 +33,27 @@ type Props = {
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<TAuthModel['IUserData'] | null>(null);
 
-  const [activeRestaurant , setActiveRestaurant]=useState<activeRestaurantType | null>(null)
+  const ACTIVE_RESTAURANT_KEY = 'activeRestaurant';
+
+  const [activeRestaurant, setActiveRestaurantState] = useState<activeRestaurantType | null>(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const stored = localStorage.getItem(ACTIVE_RESTAURANT_KEY);
+      return stored ? (JSON.parse(stored) as activeRestaurantType) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const setActiveRestaurant = (value: activeRestaurantType | null) => {
+    setActiveRestaurantState(value);
+    if (typeof window === 'undefined') return;
+    if (value) {
+      localStorage.setItem(ACTIVE_RESTAURANT_KEY, JSON.stringify(value));
+    } else {
+      localStorage.removeItem(ACTIVE_RESTAURANT_KEY);
+    }
+  };
   const storageTokenKeyName = process.env.NEXT_PUBLIC_TOKEN_NAME;
   const storageRefreshTokenKeyName = process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME;
   const storedToken = parseCookies(null, storageTokenKeyName);
@@ -49,6 +69,7 @@ const AuthProvider = ({ children }: Props) => {
     });
     setOAuthAppAccessToken(null);
     setUser(null);
+    localStorage.removeItem(ACTIVE_RESTAURANT_KEY);
     setHasToken(null);
     router.push(ROUTES.auth.login);
   };

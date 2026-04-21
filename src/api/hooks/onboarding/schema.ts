@@ -32,6 +32,10 @@ export interface IUpdateOnboardingDto {
     ifscCode?: string;
     upiId?: string;
   };
+  completedRestaurant?:{
+    _id: string;
+    name:string
+  }
 }
 
 export type TOnboardingSchema = {

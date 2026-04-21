@@ -83,7 +83,7 @@ const PaymentDetails = ({ onNext, onBack }: StepAccountProps) => {
           Back
         </Button>
 
-        <Button className="w-full sm:w-auto" onClick={onNext}>
+        <Button className="w-full text-primary sm:w-auto" onClick={onNext}>
           Finish
         </Button>
       </CardFooter>

@@ -120,7 +120,7 @@ const ServiceAvailability = ({ onNext, onBack }: StepAccountProps) => {
           Back
         </Button>
 
-        <Button className="w-full sm:w-auto" onClick={onNext}>
+        <Button className="w-full text-primary sm:w-auto" onClick={onNext}>
           Next
         </Button>
       </CardFooter>
